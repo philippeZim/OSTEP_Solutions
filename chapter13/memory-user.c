@@ -11,6 +11,7 @@ char *reserve_memory(int megabytes) {
         perror("error using malloc");
         return NULL;
     }
+    return res;
 }
 
 
@@ -24,7 +25,7 @@ int main(int argc, char **argv) {
     int megabytes;
     int time_in_ms = -1;
 
-    for (int i = 0; i < argc; i++) {
+    for (int i = 1; i < argc; i++) {
         if (strcmp(argv[i], "-h") == 0) {
             char *help_str = "Usage:\n-h -> help\n-n [number of megabytes]\n-t [runtime in ms]\n";
             printf("%s", help_str);
@@ -41,6 +42,8 @@ int main(int argc, char **argv) {
         }
     }
 
+
+
     char *mem = reserve_memory(megabytes);
     if (mem == NULL) {
         return 1;
@@ -53,6 +56,7 @@ int main(int argc, char **argv) {
         }
     } else {
         while(1) {
+            printf("1");
             for (int i = 0; i < megabytes * 1000000; i++) {
                 printf("%c", mem[i]);
 
