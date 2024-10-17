@@ -342,5 +342,3 @@ print('')
 
 f = Forker(options.fork_percentage, options.actions, options.action_list, options.show_tree, options.just_final, options.leaf_only, options.local_reparent, options.print_style, options.solve)
 f.run()
-
-
