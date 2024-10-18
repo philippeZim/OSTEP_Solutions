@@ -6,7 +6,7 @@
 
 
 char *reserve_memory(int megabytes) {
-    char *res = malloc(megabytes * sizeof(char) * 1000000);
+    char *res = malloc((size_t)megabytes * sizeof(char) * 1000000);
     if (res == NULL) {
         perror("error using malloc");
         return NULL;
@@ -22,19 +22,19 @@ int main(int argc, char **argv) {
     }
 
     clock_t start_time = clock();
-    int megabytes;
-    int time_in_ms = -1;
+    int megabytes = -1;
+    int time_in_s = -1;
 
     for (int i = 1; i < argc; i++) {
         if (strcmp(argv[i], "-h") == 0) {
-            char *help_str = "Usage:\n-h -> help\n-n [number of megabytes]\n-t [runtime in ms]\n";
+            char *help_str = "Usage:\n-h -> help\n-n [number of megabytes]\n-t [runtime in s]\n";
             printf("%s", help_str);
             return 1;
         } else if (strcmp(argv[i], "-n") == 0) {
             megabytes = atoi(argv[i+1]);
             i++;
         } else if (strcmp(argv[i], "-t") == 0) {
-            time_in_ms = atoi(argv[i+1]);
+            time_in_s = atoi(argv[i+1]);
             i++;
         } else {
             printf("Error parsing parameters, use -h for help");
@@ -43,24 +43,26 @@ int main(int argc, char **argv) {
     }
 
 
-
     char *mem = reserve_memory(megabytes);
     if (mem == NULL) {
         return 1;
     }
-    if (time_in_ms == -1) {
+    char touch = 'Z';
+    printf("%c\n", touch);
+    if (time_in_s == -1) {
+        
         while(1) {
+            printf("mem touched %d_000_000 times\n", megabytes);
             for (int i = 0; i < megabytes * 1000000; i++) {
-                printf("%c", mem[i]);
+                touch = mem[i];
             }
         }
     } else {
         while(1) {
-            printf("1");
+            printf("mem touched %d_000_000 times\n", megabytes);
             for (int i = 0; i < megabytes * 1000000; i++) {
-                printf("%c", mem[i]);
-
-                if ((((double) (clock() - start_time)) / CLOCKS_PER_SEC) * 1000 >= time_in_ms) {
+                touch = mem[i];
+                if ((((double) (clock() - start_time)) / CLOCKS_PER_SEC) >= time_in_s) {
                     return 0;
                 } 
             }
