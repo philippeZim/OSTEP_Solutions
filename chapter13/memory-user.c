@@ -47,28 +47,22 @@ int main(int argc, char **argv) {
     if (mem == NULL) {
         return 1;
     }
-    char touch = 'Z';
-    printf("%c\n", touch);
-    if (time_in_s == -1) {
-        
-        while(1) {
-            printf("mem touched %d_000_000 times\n", megabytes);
-            for (int i = 0; i < megabytes * 1000000; i++) {
-                touch = mem[i];
-            }
+    while (1) {
+        for (size_t i = 0; i < (size_t)megabytes * 1000000; i++) {
+            mem[i] = 'Z';
         }
-    } else {
-        while(1) {
-            printf("mem touched %d_000_000 times\n", megabytes);
-            for (int i = 0; i < megabytes * 1000000; i++) {
-                touch = mem[i];
-                if ((((double) (clock() - start_time)) / CLOCKS_PER_SEC) >= time_in_s) {
-                    return 0;
-                } 
+
+        printf("Memory touched %d megabytes\n", megabytes);
+
+        if (time_in_s != -1) {
+            double elapsed_time = ((double)(clock() - start_time)) / CLOCKS_PER_SEC;
+            if (elapsed_time >= time_in_s) {
+                printf("Program finished after %d seconds\n", time_in_s);
+                free(mem);
+                return 0;
             }
         }
     }
-    
-
+    free(mem);
     return 0;
 }
