@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <time.h>
-
+#include <unistd.h>
 
 
 char *reserve_memory(int megabytes) {
@@ -20,6 +20,8 @@ int main(int argc, char **argv) {
         printf("Wrong number of parameters use -h for help.");
         return 1;
     }
+
+    printf("%d\n", getpid());
 
     clock_t start_time = clock();
     int megabytes = -1;
