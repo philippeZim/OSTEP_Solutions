@@ -5,7 +5,8 @@ int main(void) {
     for (int i = 0; i < 10; i++) {
         arr[i] = i;
     }
-    free(&arr[5]);
+    
+    //free(&arr[5]);
     for (size_t i = 0; i < 10; i++) {
         printf("%d\n", arr[i]);
     }
