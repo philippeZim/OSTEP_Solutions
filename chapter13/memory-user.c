@@ -21,7 +21,7 @@ int main(int argc, char **argv) {
         return 1;
     }
 
-    printf("%d\n", getpid());
+    printf("PID: %d\n", getpid());
 
     clock_t start_time = clock();
     int megabytes = -1;

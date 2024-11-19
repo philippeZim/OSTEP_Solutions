@@ -3,13 +3,13 @@
 
 #include "vector.h"
 
-vector *init_vector() {
+vector *init_vector(int init_size) {
     vector *v = (vector *) malloc(sizeof(vector));
     if (v == NULL) {
         perror("error using malloc in init_vector");
         exit(1);
     }
-    v->arr = (int *)malloc(sizeof(int)*100);
+    v->arr = (int *)malloc(sizeof(int)*(size_t)init_size);
     if (v->arr == NULL) {
         perror("error using malloc in init_vector arr");
         exit(1);
