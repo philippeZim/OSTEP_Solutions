@@ -1,0 +1,82 @@
+
+Nr.1
+
+valgrind --tool=helgrind ./main-race
+
+
+Possible data race during read of size 4 at 0x10C014 by thread #1
+==1572== Locks held: none
+==1572==    at 0x109236: main (main-race.c:15)
+==1572==
+==1572== This conflicts with a previous write of size 4 by thread #2
+==1572== Locks held: none
+==1572==    at 0x1091BE: worker (main-race.c:8)
+
+
+Nr.2
+
+removing one balance++ => 0 errors
+
+surrounding both balance++ with locks => 0 errors
+
+using only one lock:
+
+Possible data race during write of size 4 at 0x10C040 by thread #1
+==1725== Locks held: none
+==1725==    at 0x1092A1: main (main-race.c:19)
+==1725==
+==1725== This conflicts with a previous write of size 4 by thread #2
+==1725== Locks held: 1, at address 0x10C060
+==1725==    at 0x109211: worker (main-race.c:11)
+
+Nr.3
+
+The Deadlock Scenario
+
+Thread p1 acquires m1: p1 successfully locks m1 and enters the critical section protected by m1.
+
+Thread p2 acquires m2: Concurrently, p2 successfully locks m2 and enters the critical section protected by m2.
+
+Deadlock:
+
+p1 now tries to lock m2, but m2 is already held by p2. p1 blocks, waiting for m2 to be released.
+
+p2 now tries to lock m1, but m1 is already held by p1. p2 blocks, waiting for m1 to be released.
+
+Nr. 4
+
+Helgrind doesn't directly detect deadlocks. Instead, it detects lock order violations.
+
+Nr. 5
+
+Helgrind still detects lock order violations even though no deadlocks can occur.
+=> Helgrind can't reliably detect deadlocks.
+
+Nr.6 
+
+The parent thread in main-signal.c is inefficient 
+because it actively waits in a tight loop (while (done == 0);) for the child thread to finish. 
+This is called busy-waiting or spinning. 
+The parent continuously checks the done variable, consuming CPU cycles without doing any useful work, 
+especially if the child thread takes a long time to complete.
+
+Nr.7
+
+Helgrind reports two data races on the done variable
+
+no race contition will accour because the main thread is only reading and not changing the data
+
+Nr.8
+
+Correctness:
+
+previous approach was likely to introduce errors in more complex programs
+
+Performance:
+
+Avoids Busy-Waiting: Unlike the previous version now blocks on the condition variable using Pthread_cond_wait. 
+Thread goes to sleep and doesn't consume CPU cycles while Waiting
+
+Nr.9 
+
+no errors
