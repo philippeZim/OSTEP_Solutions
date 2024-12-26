@@ -1,6 +1,6 @@
-# OSTEP Homework Solutions
+# OSTEP Solutions
 
-This repository contains my solutions to the homework assignments from the **Operating Systems: Three Easy Pieces (OSTEP)** book by Remzi H. Arpaci-Dusseau and Andrea C. Arpaci-Dusseau.
+This repository contains my solutions to the assignments from the **Operating Systems: Three Easy Pieces (OSTEP)** book by Remzi H. Arpaci-Dusseau and Andrea C. Arpaci-Dusseau.
 
 ## Contents
 
